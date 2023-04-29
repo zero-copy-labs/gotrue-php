@@ -605,6 +605,43 @@ class GoTrueClient
 	}
 
 	/**
+	 * Log in a user given a User supplied OTP received via mobile.
+	 *
+	 * @param  array  $credentials  Requires either an email or phone number.
+	 * @return array
+	 *
+	 * @throws Exception
+	 */
+	public function verifyOtp($phone, $token, $type, $options=[])
+	{
+		try {
+			$this->_removeSession();
+			$headers = array_merge($this->headers, ['Content-Type' => 'application/json']);
+			$body = json_encode([
+				'phone'=> $phone,
+				'token'=> $token,
+				'type'=> $type,
+				$options
+			]);
+			$data = $this->__request('POST', $this->url.'/verify', $headers, $body);
+			$session = isset($data['session']) ? $data['session'] : null;
+
+			if (isset($data['session'])) {
+				$this->_saveSession($session);
+				$this->_notifyAllSubscribers('SIGNED_IN', $session);
+			}
+
+			return ['data' => $data, 'error' => null];
+		} catch (\Exception $e) {
+			if (GoTrueError::isGoTrueError($e)) {
+				return ['data' => ['user' => null, 'session' => null], 'error' => $e];
+			}
+
+			throw $e;
+		}
+	}
+
+	/**
 	 * Returns the session, refreshing it if necessary.
 	 * The session returned can be null if the session is not detected which can happen in the event a user is not signed-in or has logged out.
 	 *
