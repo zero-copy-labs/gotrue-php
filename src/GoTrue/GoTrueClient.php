@@ -612,7 +612,7 @@ class GoTrueClient
 	 *
 	 * @throws Exception
 	 */
-	public function verifyOtp($phone, $token, $type, $options=[])
+	public function verifyOtp($phone, $token, $type, $options = [])
 	{
 		try {
 			$this->_removeSession();
@@ -621,7 +621,7 @@ class GoTrueClient
 				'phone'=> $phone,
 				'token'=> $token,
 				'type'=> $type,
-				$options
+				$options,
 			]);
 			$data = $this->__request('POST', $this->url.'/verify', $headers, $body);
 			$session = isset($data['session']) ? $data['session'] : null;
