@@ -552,13 +552,13 @@ class GoTrueClientTest extends TestCase
 		})->andReturn(['data' => [], 'error' => null]);
 
 		$mock->verifyOtp('some_phone_number',
-		 'token', 'some_type', ['option' => 'some_option']);
+			'token', 'some_type', ['option' => 'some_option']);
 	}
 
 	/**
 	 * Test the request parameters needed to
 	 * Attempts a single-sign on using an enterprise Identity Provider.
-	 * A successful SSO attempt will redirect the current page to the 
+	 * A successful SSO attempt will redirect the current page to the
 	 * identity provider authorization page.
 	 *
 	 * @return void

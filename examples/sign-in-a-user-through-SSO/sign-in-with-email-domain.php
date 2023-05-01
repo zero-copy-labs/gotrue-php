@@ -13,12 +13,12 @@ $client = new GoTrueClient($reference_id, $api_key, [
 	'storageKey'         => $api_key,
 ], $domain, $scheme, $path);
 
-$response = $client->signInWithSSO(	
-	[	
-	'domain'=> 'company.com', 
-	'options'              => [
-		'captchaToken' => $options['captchaToken'] ?? null,
-		'redirectTo'=> $options['redirectTo'] ?? null,
-	],
-]);
+$response = $client->signInWithSSO(
+	[
+		'domain'=> 'company.com',
+		'options'              => [
+			'captchaToken' => $options['captchaToken'] ?? null,
+			'redirectTo'=> $options['redirectTo'] ?? null,
+		],
+	]);
 print_r($response);

@@ -642,9 +642,9 @@ class GoTrueClient
 	}
 
 	/**
-	 * Attempts a single-sign on using an enterprise Identity Provider. 
-	 * A successful SSO attempt will redirect the current page to the 
-	 * identity provider authorization page. (A Pro Plan need it)
+	 * Attempts a single-sign on using an enterprise Identity Provider.
+	 * A successful SSO attempt will redirect the current page to the
+	 * identity provider authorization page. (A Pro Plan need it).
 	 *
 	 * @param  array  $credentials  Requires either an email or phone number.
 	 * @return array

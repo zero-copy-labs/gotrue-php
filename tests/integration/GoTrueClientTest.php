@@ -255,7 +255,7 @@ final class GoTrueClientTest extends TestCase
 		]);
 		$uid = $result['data']['user']['id'];
 		$access_token = $result['data']['access_token'];
-		$result = $this->client->verifyOtp('123456789', $access_token, 'sms', 
+		$result = $this->client->verifyOtp('123456789', $access_token, 'sms',
 		[
 			'emailRedirectTo'=> 'https://example.com/welcome',
 		]);
@@ -272,8 +272,8 @@ final class GoTrueClientTest extends TestCase
 			'password'             => 'example-password',
 			'email_confirm'        => true,
 		]);
-		$result = $this->client->signInWithSSO([	
-			'domain'=> 'company.com', 
+		$result = $this->client->signInWithSSO([
+			'domain'=> 'company.com',
 			'options'              => [
 				'captchaToken' => $options['captchaToken'] ?? null,
 				'redirectTo'=> $options['redirectTo'] ?? null,
