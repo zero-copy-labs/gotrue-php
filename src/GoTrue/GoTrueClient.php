@@ -642,6 +642,41 @@ class GoTrueClient
 	}
 
 	/**
+	 * Attempts a single-sign on using an enterprise Identity Provider. 
+	 * A successful SSO attempt will redirect the current page to the 
+	 * identity provider authorization page. (A Pro Plan need it)
+	 *
+	 * @param  array  $credentials  Requires either an email or phone number.
+	 * @return array
+	 *
+	 * @throws Exception
+	 */
+	public function signInWithSSO($params = [])
+	{
+		try {
+			$this->_removeSession();
+			$headers = array_merge($this->headers, ['Content-Type' => 'application/json']);
+			//$options = $
+			$body = json_encode($params);
+			$data = $this->__request('POST', $this->url.'/sso', $headers, $body);
+			$session = isset($data['session']) ? $data['session'] : null;
+
+			if (isset($data['session'])) {
+				$this->_saveSession($session);
+				$this->_notifyAllSubscribers('SIGNED_IN', $session);
+			}
+
+			return ['data' => $data, 'error' => null];
+		} catch (\Exception $e) {
+			if (GoTrueError::isGoTrueError($e)) {
+				return ['data' => ['user' => null, 'session' => null], 'error' => $e];
+			}
+
+			throw $e;
+		}
+	}
+
+	/**
 	 * Returns the session, refreshing it if necessary.
 	 * The session returned can be null if the session is not detected which can happen in the event a user is not signed-in or has logged out.
 	 *

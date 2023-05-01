@@ -520,4 +520,75 @@ class GoTrueClientTest extends TestCase
 
 		$mock->_getAuthenticatorAssuranceLevel('factor-id', 'auth-token');
 	}
+
+	/**
+	 * Test the request parameters needed to
+	 * Log in a user given a User supplied OTP received via mobile.
+	 *
+	 * @return void
+	 */
+	public function testVerifyOtp()
+	{
+		$mock = \Mockery::mock(
+			'Supabase\GoTrue\GoTrueClient[__request]',
+			[
+				'123123123', 'mokerymock', [], 'mokerymock.supabase.co',
+				'http', '/auth/v1',
+			]
+		);
+
+		$mock->shouldReceive('__request')->withArgs(function ($scheme, $url, $headers, $body) {
+			$this->assertEquals('POST', $scheme);
+			$this->assertEquals('{"phone":"some_phone_number","token":"token","type":"some_type","0":{"option":"some_option"}}', $body);
+			$this->assertEquals('http://123123123.mokerymock.supabase.co/auth/v1/verify', $url);
+			$this->assertEquals([
+				'Authorization'  => 'Bearer mokerymock',
+				'apikey'         => 'mokerymock',
+				'Content-Type'   => 'application/json',
+				'X-Client-Info'  => 'gotrue-php/0.0.1',
+			], $headers);
+
+			return true;
+		})->andReturn(['data' => [], 'error' => null]);
+
+		$mock->verifyOtp('some_phone_number',
+		 'token', 'some_type', ['option' => 'some_option']);
+	}
+
+	/**
+	 * Test the request parameters needed to
+	 * Attempts a single-sign on using an enterprise Identity Provider.
+	 * A successful SSO attempt will redirect the current page to the 
+	 * identity provider authorization page.
+	 *
+	 * @return void
+	 */
+	public function testSignInWithSSO()
+	{
+		$mock = \Mockery::mock(
+			'Supabase\GoTrue\GoTrueClient[__request]',
+			[
+				'123123123', 'mokerymock', [], 'mokerymock.supabase.co',
+				'http', '/auth/v1',
+			]
+		);
+
+		$mock->shouldReceive('__request')->withArgs(function ($scheme, $url, $headers, $body) {
+			$this->assertEquals('POST', $scheme);
+			$this->assertEquals('{"domain":"some_domain","options":"some_options"}', $body);
+			$this->assertEquals('http://123123123.mokerymock.supabase.co/auth/v1/sso', $url);
+			$this->assertEquals([
+				'Authorization'  => 'Bearer mokerymock',
+				'apikey'         => 'mokerymock',
+				'Content-Type'   => 'application/json',
+				'X-Client-Info'  => 'gotrue-php/0.0.1',
+			], $headers);
+
+			return true;
+		})->andReturn(['data' => [], 'error' => null]);
+
+		$mock->signInWithSSO([
+			'domain' => 'some_domain',
+			'options' => 'some_options']);
+	}
 }

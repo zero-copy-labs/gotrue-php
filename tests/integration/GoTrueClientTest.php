@@ -239,6 +239,49 @@ final class GoTrueClientTest extends TestCase
 		$result = $this->client->admin->deleteUser($uid);
 	}
 
+	/*
+	public function testVerifyOtp(): void
+	{
+		$email = $this->createRandomEmail();
+		$result = $this->client->admin->createUser([
+			'email'                => $email,
+			'password'             => 'example-password',
+			'email_confirm'        => true,
+		]);
+
+		$result = $this->client->signInWithPassword([
+			'email'                => $email,
+			'password'             => 'example-password',
+		]);
+		$uid = $result['data']['user']['id'];
+		$access_token = $result['data']['access_token'];
+		$result = $this->client->verifyOtp('123456789', $access_token, 'sms', 
+		[
+			'emailRedirectTo'=> 'https://example.com/welcome',
+		]);
+		$this->assertArrayHasKey('data', $result);
+		$this->assertNull($result['error']);
+		$result = $this->client->admin->deleteUser($uid);
+	}*/
+
+	/*public function testSignInWithSSO(): void
+	{
+		$email = $this->createRandomEmail();
+		$result = $this->client->admin->createUser([
+			'email'                => $email,
+			'password'             => 'example-password',
+			'email_confirm'        => true,
+		]);
+		$result = $this->client->signInWithSSO([	
+			'domain'=> 'company.com', 
+			'options'              => [
+				'captchaToken' => $options['captchaToken'] ?? null,
+				'redirectTo'=> $options['redirectTo'] ?? null,
+			]]);
+		$this->assertArrayHasKey('data', $result);
+		$this->assertNull($result['error']);
+	}*/
+
 	private function createRandomEmail(): string
 	{
 		$characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
